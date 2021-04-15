@@ -7,9 +7,13 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
+  /*socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
+  });*/
+  socket.on('private message', (socketId, msg) =>{
+  io.broadcast.to(socketId).emit('message', socket.id, msg);
   });
+  console.log(socket.id);
 });
 
 http.listen(3000, () => {
